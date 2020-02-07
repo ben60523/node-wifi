@@ -8,18 +8,17 @@ function scanWifi(config, callback) {
       'netsh',
       ['wlan', 'show', 'networks', 'mode=Bssid'],
       { env },
-      function(err, scanResults) {
+      function (err, scanResults) {
         if (err) {
           callback && callback(err);
           return;
         }
-
         scanResults = scanResults
           .toString('utf8')
           .split('\r')
           .join('')
           .split('\n')
-          .slice(5, scanResults.length);
+          .slice(4, scanResults.length);
 
         var numNetworks = -1;
         var currentLine = 0;
@@ -81,13 +80,13 @@ function parse(networkTmp) {
   return network;
 }
 
-module.exports = function(config) {
-  return function(callback) {
+module.exports = function (config) {
+  return function (callback) {
     if (callback) {
       scanWifi(config, callback);
     } else {
-      return new Promise(function(resolve, reject) {
-        scanWifi(config, function(err, networks) {
+      return new Promise(function (resolve, reject) {
+        scanWifi(config, function (err, networks) {
           if (err) {
             reject(err);
           } else {
