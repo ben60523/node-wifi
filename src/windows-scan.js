@@ -56,7 +56,7 @@ function scanWifi(config, callback) {
 function parse(networkTmp) {
   var network = {};
 
-  network.mac = networkTmp[4] ? networkTmp[4].match(/.*?:\s(.*)/)[1] : '';
+  network.mac = networkTmp[4].includes("BSSID") ? networkTmp[4].match(/.*?:\s(.*)/)[1] : '';
   network.bssid = network.mac;
   network.ssid = networkTmp[0] ? networkTmp[0].match(/.*?:\s(.*)/)[1] : '';
   network.channel = networkTmp[7]
@@ -76,7 +76,6 @@ function parse(networkTmp) {
     ? networkTmp[3].match(/.*?:\s(.*)/)[1]
     : '';
   network.mode = 'Unknown';
-
   return network;
 }
 
